@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Projects</h1>
+<div class="project-list">
+    {% for project in projects %}
+    <div class="project-card">
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" width="300">
+        <h2><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h2>
+        <p>{{ project.short_description }}</p>
+        <p>Type: {{ project.get_project_type_display }}</p>
+        <p>Technologies:
+            {% for tech in project.technologies.all %}
+                {{ tech.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    </div>
+    {% empty %}
+        <p>No projects found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

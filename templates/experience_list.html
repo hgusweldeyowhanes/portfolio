@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Experience</h1>
+<ul>
+    {% for exp in experiences %}
+    <li>
+        <strong>{{ exp.role }}</strong> at <strong>{{ exp.company }}</strong> 
+        ({{ exp.start_date }} - {% if exp.current %}Present{% else %}{{ exp.end_date }}{% endif %})
+        - Duration: {{ exp.duration }}
+        {% if exp.ml_projects %}- ML/AI Projects: {{ exp.ml_projects }}{% endif %}
+    </li>
+    {% empty %}
+    <p>No experience entries found.</p>
+    {% endfor %}
+</ul>
+{% endblock %}

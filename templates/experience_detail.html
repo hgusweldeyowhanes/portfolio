@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ experience.role }} at {{ experience.company }}</h1>
+<p>Industry: {{ experience.get_industry_display }}</p>
+<p>Duration: {{ experience.duration }}</p>
+<p>{{ experience.description }}</p>
+{% if experience.ml_projects %}<p>ML/AI Projects: {{ experience.ml_projects }}</p>{% endif %}
+{% if experience.algorithms_used %}<p>Algorithms Used: {{ experience.algorithms_used }}</p>{% endif %}
+{% endblock %}
