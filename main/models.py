@@ -3,7 +3,17 @@ from django.urls import reverse
 from django.utils.text import slugify
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
+from django.contrib.auth.models import User
 
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(upload_to="profiles/", blank=True, null=True)
+    past_predictions = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 class Project(models.Model):
     PROJECT_TYPES = [

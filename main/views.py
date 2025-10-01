@@ -1,52 +1,32 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, get_object_or_404
 from .models import Project, Skills, Experience
 
-
-from django.shortcuts import render
-from .models import Project, Skills
-
 def home(request):
-    projects = Project.objects.all()  
-    skills = Skills.objects.all()     
-    context = {
-        "projects": projects,
-        "skills": skills
-    }
-    return render(request, "base.html", context)
+    projects = Project.objects.filter(featured=True).order_by('-created_at')[:6]
+    skills = Skills.objects.all()[:10]
+    experiences = Experience.objects.all()[:3]
+    return render(request, 'home.html', {
+        'projects': projects,
+        'skills': skills,
+        'experiences': experiences,
+    })
 
-class ProjectListView(ListView):
-    model = Project
-    template_name = 'project_list.html'
-    context_object_name = 'projects'
-    paginate_by = 10  
+# Project List
+def project_list(request):
+    projects = Project.objects.all()
+    return render(request, 'project_list.html', {'projects': projects})
 
-class ProjectDetailView(DetailView):
-    model = Project
-    template_name = 'project_detail.html'
-    context_object_name = 'project'
+# Project Detail
+def project_detail(request, slug):
+    project = get_object_or_404(Project, slug=slug)
+    return render(request, 'project_detail.html', {'project': project})
 
-    def get_object(self):
-        return get_object_or_404(Project, slug=self.kwargs.get('slug'))
+# Skills List
+def skills_list(request):
+    skills = Skills.objects.all()
+    return render(request, 'skills_list.html', {'skills': skills})
 
-class SkillsListView(ListView):
-    model = Skills
-    template_name = 'skills_list.html'
-    context_object_name = 'skills'
-    paginate_by = 20
-
-class SkillsDetailView(DetailView):
-    model = Skills
-    template_name = 'skills_detail.html'
-    context_object_name = 'skill'
-
-class ExperienceListView(ListView):
-    model = Experience
-    template_name = 'experience_list.html'
-    context_object_name = 'experiences'
-    paginate_by = 10
-
-class ExperienceDetailView(DetailView):
-    model = Experience
-    template_name = 'experience_detail.html'
-    context_object_name = 'experience'
+# Experience List
+def experience_list(request):
+    experiences = Experience.objects.all()
+    return render(request, 'experience_list.html', {'experiences': experiences})

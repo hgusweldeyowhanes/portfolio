@@ -1,16 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{ project.title }}</h1>
-<img src="{{ project.image.url }}" alt="{{ project.title }}" width="500">
+<img src="{{ project.image.url }}" alt="{{ project.title }}" width="400">
+
 <p>{{ project.description }}</p>
-<p>Type: {{ project.get_project_type_display }}</p>
-<p>Technologies:
-    {% for tech in project.technologies.all %}
-        {{ tech.name }}{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-</p>
-{% if project.url %}<p>URL: <a href="{{ project.url }}">{{ project.url }}</a></p>{% endif %}
-{% if project.github_url %}<p>Github: <a href="{{ project.github_url }}">{{ project.github_url }}</a></p>{% endif %}
-{% if project.algorithm %}<p>Algorithm: {{ project.algorithm }}</p>{% endif %}
-{% if project.model_accuracy %}<p>Accuracy: {{ project.model_accuracy }}%</p>{% endif %}
+
+{% if project.url %}
+<p><a href="{{ project.url }}">Live Project</a></p>
+{% endif %}
+{% if project.github_url %}
+<p><a href="{{ project.github_url }}">GitHub</a></p>
+{% endif %}
+
+{% if project.model_accuracy %}
+<p>Model Accuracy: {{ project.model_accuracy }}%</p>
+{% endif %}
+{% if project.algorithm %}
+<p>Algorithm: {{ project.algorithm }}</p>
+{% endif %}
+{% if project.dataset_size %}
+<p>Dataset Size: {{ project.dataset_size }}</p>
+{% endif %}
+
+<h3>Technologies:</h3>
+<ul>
+  {% for tech in project.technologies.all %}
+    <li>{{ tech.name }}</li>
+  {% empty %}
+    <li>No technologies listed.</li>
+  {% endfor %}
+</ul>
 {% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Welcome to My Portfolio</h1>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!-- Profile Section -->
+<section class="profile-section text-center py-5 bg-light">
+  <img src="{% static 'profile.jpg' %}" class="rounded-circle mb-3" width="150" height="150" alt="Profile">
+  <h2>Hgus Weldeyowhanes</h2>
+  <p class="lead">Computer Science & Engineering Graduate | Data Science & AI Enthusiast</p>
+  <a href="{% static 'resume.pdf' %}" class="btn btn-primary" download>Download Resume</a>
+</section>
+
+<!-- Projects -->
+<h2>Featured Projects</h2>
+<div class="row">
+  {% for project in projects %}
+    <div class="col-md-4 mb-3">
+      <h3><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h3>
+      {% if project.image %}
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" width="200">
+      {% endif %}
+      <p>{{ project.short_description }}</p>
+    </div>
+  {% empty %}
+    <p>No projects added yet.</p>
+  {% endfor %}
+</div>
+
+<!-- Skills -->
+<h2>Skills</h2>
+<ul>
+  {% for skill in skills %}
+    <li>{{ skill.name }} ({{ skill.get_level_display }})</li>
+  {% empty %}
+    <li>No skills added yet.</li>
+  {% endfor %}
+</ul>
+
+<!-- Experience -->
+<h2>Experience</h2>
+<ul>
+  {% for exp in experiences %}
+    <li>{{ exp.role }} at {{ exp.company }} ({{ exp.duration }})</li>
+  {% empty %}
+    <li>No experience added yet.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
